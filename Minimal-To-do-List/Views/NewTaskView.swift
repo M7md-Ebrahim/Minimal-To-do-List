@@ -39,14 +39,16 @@ class NewTaskView: UIView {
         addSubview(taskTextField)
         addSubview(addTaskButton)
         backgroundColor = UIColor.init(netHex: 0x202020)
-        
+        applyConstraints()
+        addTaskButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
     }
     @objc func buttonTapped(_ sender: UIButton) {
-        sender.backgroundColor = .white
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            sender.backgroundColor = .lightGray
+        sender.backgroundColor = UIColor.init(netHex: 0x3B4EB5)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            sender.backgroundColor = UIColor.init(netHex: 0x626ED9)
         }
-        print("dfd")
+        guard let text = taskTextField.text else {return}
+        
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
