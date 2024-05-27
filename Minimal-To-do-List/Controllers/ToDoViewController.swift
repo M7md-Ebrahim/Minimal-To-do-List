@@ -35,6 +35,24 @@ class ToDoViewController: UIViewController {
         tasksTableView.dataSource = self
         view.addSubview(tasksTableView)
         tasksTableView.tableHeaderView = NewTaskView(frame: CGRect(x: 0, y: 0, width: Int(view.bounds.width), height: 120))
+        fetchTasks()
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("Task"), object: nil, queue: nil) { _ in
+            self.fetchTasks()
+        }
+    }
+    private var tasksCell: [RealmTaskModel] = []
+    private func fetchTasks() {
+        DataPersistence.shared.fetchTasks { [weak self] results in
+            switch results {
+            case .success(let result):
+                self?.tasksCell = result
+                DispatchQueue.main.async {
+                    self?.tasksTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -44,15 +62,16 @@ class ToDoViewController: UIViewController {
 
 extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 40
+        return tasksCell.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier, for: indexPath)as? TaskTableViewCell else {
             return UITableViewCell()
         }
+        cell.configura(tasksCell[indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 60
     }
 }
