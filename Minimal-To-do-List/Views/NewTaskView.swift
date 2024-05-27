@@ -11,12 +11,12 @@ class NewTaskView: UIView {
     private let taskTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Add a task"
-        textField.textColor = .systemGray
+        textField.textColor = UIColor.init(netHex: 0xBABABA)
         textField.backgroundColor = .systemGray6
         textField.font = .systemFont(ofSize: 22, weight: .medium)
-        textField.layer.cornerRadius = 12
+        textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.2
-        textField.layer.borderColor = UIColor.label.cgColor
+        textField.layer.borderColor = UIColor.white.cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
@@ -27,16 +27,26 @@ class NewTaskView: UIView {
     private let addTaskButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Add Task", for: .normal)
+        btn.setTitleColor(UIColor.init(netHex: 0x202020), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.layer.cornerRadius = 12
-        btn.backgroundColor = .systemRed
+        btn.layer.cornerRadius = 10
+        btn.backgroundColor = UIColor.init(netHex: 0x626ED9)
+        btn.setTitleColor(.white, for: .highlighted)
         return btn
     }()
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(taskTextField)
         addSubview(addTaskButton)
-        applyConstraints()
+        backgroundColor = UIColor.init(netHex: 0x202020)
+        
+    }
+    @objc func buttonTapped(_ sender: UIButton) {
+        sender.backgroundColor = .white
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.backgroundColor = .lightGray
+        }
+        print("dfd")
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -51,6 +61,7 @@ class NewTaskView: UIView {
             addTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             addTaskButton.heightAnchor.constraint(equalToConstant: 65),
             addTaskButton.leadingAnchor.constraint(equalTo: taskTextField.trailingAnchor, constant: 10),
-            addTaskButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.27)])
+            addTaskButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.27)
+        ])
     }
 }

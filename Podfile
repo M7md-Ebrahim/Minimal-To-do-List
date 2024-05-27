@@ -6,5 +6,6 @@ target 'Minimal-To-do-List' do
   use_frameworks!
 
   # Pods for Minimal-To-do-List
+pod 'RealmSwift', '~>10'
 
 end

@@ -8,17 +8,29 @@
 import UIKit
 
 class ToDoViewController: UIViewController {
+    let titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "Daily Todo's"
+        titleLabel.textColor = UIColor.init(netHex: 0xBABABA)
+        titleLabel.font = UIFont(name: "Rubik-Regular", size: 35)
+        titleLabel.textAlignment = .center
+        titleLabel.clipsToBounds = true
+        titleLabel.adjustsFontSizeToFitWidth = true
+        return titleLabel
+    }()
     private let tasksTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: TaskTableViewCell.identifier)
+        tableView.backgroundColor = UIColor.init(netHex: 0x202020)
+        tableView.separatorStyle = .none
+        tableView.allowsSelection = false
         return tableView
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray6
-        title = "Daily Todo's"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.titleView = titleLabel
+        view.backgroundColor = UIColor.init(netHex: 0x202020)
+        navigationController?.navigationBar.backgroundColor = UIColor.init(netHex: 0x202020)
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         view.addSubview(tasksTableView)
@@ -30,7 +42,7 @@ class ToDoViewController: UIViewController {
     }
 }
 
-extension ToDoViewController:UITableViewDataSource, UITableViewDelegate {
+extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 40
     }
@@ -41,6 +53,6 @@ extension ToDoViewController:UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
 }
