@@ -60,7 +60,7 @@ class ToDoViewController: UIViewController {
     }
 }
 
-extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
+extension ToDoViewController: UITableViewDataSource, UITableViewDelegate, TaskTableViewCellDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasksCell.count
     }
@@ -68,10 +68,24 @@ extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier, for: indexPath)as? TaskTableViewCell else {
             return UITableViewCell()
         }
+        cell.delegate = self
         cell.configura(tasksCell[indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    func removeCell(_ cell: TaskTableViewCell) {
+        guard let indexPath = tasksTableView.indexPath(for: cell) else { return }
+        DataPersistence.shared.removeTask(tasksCell[indexPath.row]) { results in
+            switch results {
+            case .success:
+                print("success")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        tasksCell.remove(at: indexPath.row)
+        tasksTableView.deleteRows(at: [indexPath], with: .left)
     }
 }

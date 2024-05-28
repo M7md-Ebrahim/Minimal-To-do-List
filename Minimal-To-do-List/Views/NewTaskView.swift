@@ -45,13 +45,6 @@ class NewTaskView: UIView {
         backgroundColor = UIColor.init(netHex: 0x202020)
         applyConstraints()
         addTaskButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        tapGesture.cancelsTouchesInView = false // Ensure taps propagate to other views
-        addGestureRecognizer(tapGesture)
-    }
-    @objc func handleTap() {
-        // Dismiss the keyboard if it's visible
-        taskTextField.endEditing(true)
     }
     @objc func buttonTapped(_ sender: UIButton = UIButton()) {
         sender.backgroundColor = UIColor.init(netHex: 0x3B4EB5)
@@ -59,7 +52,8 @@ class NewTaskView: UIView {
             sender.backgroundColor = UIColor.init(netHex: 0x626ED9)
         }
         guard let text = taskTextField.text, !text.isEmpty else {return}
-        DataPersistence.shared.createTask(text) { result in
+        let task = TaskModel(taskName: text, taskDone: false)
+        DataPersistence.shared.createTask(task) { result in
             switch result {
             case .success:
                 NotificationCenter.default.post(name: NSNotification.Name("Task"), object: nil)
@@ -94,6 +88,7 @@ extension NewTaskView: UITextFieldDelegate {
         return true
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         taskTextField.endEditing(true)
     }
 }
