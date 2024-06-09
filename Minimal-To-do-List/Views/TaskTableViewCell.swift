@@ -62,7 +62,6 @@ class TaskTableViewCell: UITableViewCell {
         applyConstraints()
         wideConstraint = doneButton.widthAnchor.constraint(equalToConstant: 70)
         narrowConstraint = doneButton.widthAnchor.constraint(equalToConstant: 50)
-        taskLabel.attributedText = NSAttributedString(string: "Empty", attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue, .foregroundColor: UIColor.gray])
         removeTaskButton.addTarget(self, action: #selector(removeButtonTapped(_:)), for: .touchUpInside)
         doneButton.addTarget(self, action: #selector(doneButtonTapped(_:)), for: .touchUpInside)
     }
@@ -74,17 +73,27 @@ class TaskTableViewCell: UITableViewCell {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             sender.backgroundColor = UIColor.init(netHex: 0xECBB5B)
         }
+        let text = taskLabel.text!
+        DataPersistence.shared.updateTaskState(text) { result in
+            switch result {
+            case .success:
+                print("Updated")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         if sender.title(for: .normal) == "Done" {
             narrowConstraint.isActive = false
             wideConstraint.isActive = true
             sender.setTitle("Undone", for: .normal)
-            taskView.layer.backgroundColor = UIColor.in.cgColor
-
+            taskLabel.setStrikethroughText(text)
         } else {
             wideConstraint.isActive = false
             narrowConstraint.isActive = true
             sender.setTitle("Done", for: .normal)
-            taskView.layer.backgroundColor = UIColor.black.cgColor
+            print(text)
+            taskLabel.removeStrikethroughText()
+            taskLabel.textColor = UIColor.init(netHex: 0xBABABA)
         }
     }
     @objc func removeButtonTapped(_ sender: UIButton = UIButton()) {
@@ -95,7 +104,7 @@ class TaskTableViewCell: UITableViewCell {
         delegate?.removeCell(self)
     }
     private func applyConstraints() {
-        NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([ 
             taskView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             taskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             taskView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -116,10 +125,13 @@ class TaskTableViewCell: UITableViewCell {
             narrowConstraint.isActive = false
             wideConstraint.isActive = true
             doneButton.setTitle("Undone", for: .normal)
+            taskLabel.setStrikethroughText(task.taskName!)
         } else {
             wideConstraint.isActive = false
             narrowConstraint.isActive = true
             doneButton.setTitle("Done", for: .normal)
+            taskLabel.removeStrikethroughText()
+            taskLabel.textColor = UIColor.init(netHex: 0xBABABA)
         }
     }
 }

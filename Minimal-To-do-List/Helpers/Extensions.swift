@@ -17,3 +17,18 @@ extension UIColor {
         self.init(red: (netHex >> 16) & 0xff, green: (netHex >> 8) & 0xff, blue: netHex & 0xff)
     }
 }
+extension UILabel {
+    func setStrikethroughText(_ text: String, strikethroughColor: UIColor = .gray) {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+            .foregroundColor: strikethroughColor
+        ]
+        self.attributedText = NSAttributedString(string: text, attributes: attributes)
+    }
+    func removeStrikethroughText() {
+        guard let currentAttributedText = self.attributedText else { return }
+        let mutableAttributedText = NSMutableAttributedString(attributedString: currentAttributedText)
+        mutableAttributedText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: currentAttributedText.length))
+        self.attributedText = mutableAttributedText
+    }
+}

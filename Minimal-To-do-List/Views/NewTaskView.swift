@@ -8,7 +8,7 @@
 import UIKit
 
 class NewTaskView: UIView {
-    private let taskTextField: UITextField = {
+    let taskTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Add a task"
         textField.textColor = UIColor.init(netHex: 0xBABABA)
@@ -25,7 +25,7 @@ class NewTaskView: UIView {
         textField.returnKeyType = .done
         return textField
     }()
-    private let addTaskButton: UIButton = {
+    let addTaskButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Add Task", for: .normal)
         btn.setTitleColor(UIColor.init(netHex: 0x202020), for: .normal)
@@ -51,7 +51,7 @@ class NewTaskView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             sender.backgroundColor = UIColor.init(netHex: 0x626ED9)
         }
-        guard let text = taskTextField.text, !text.isEmpty else {return}
+        guard let text = taskTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {return}
         let task = TaskModel(taskName: text, taskDone: false)
         DataPersistence.shared.createTask(task) { result in
             switch result {
