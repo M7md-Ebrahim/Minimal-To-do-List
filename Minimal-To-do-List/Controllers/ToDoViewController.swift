@@ -7,12 +7,6 @@
 
 import UIKit
 
-// reuse cell problem
-// update changes on cell
-// highlight cell
-// git readme for my project
-// git readme for my profile
-// 2 extentions
 
 class ToDoViewController: UIViewController {
     let titleLabel: UILabel = {
