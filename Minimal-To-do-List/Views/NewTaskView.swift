@@ -22,6 +22,8 @@ class NewTaskView: UIView {
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.rightViewMode = .always
         textField.leftViewMode = .always
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         return textField
     }()

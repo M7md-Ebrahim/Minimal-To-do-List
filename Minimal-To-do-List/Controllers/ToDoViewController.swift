@@ -40,6 +40,10 @@ class ToDoViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("Task"), object: nil, queue: nil) { _ in
             self.addTask()
         }
+        tasksTableView.isUserInteractionEnabled = true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
     }
     private var tasksCell: [RealmTaskModel] = []
     private func fetchTasks() {

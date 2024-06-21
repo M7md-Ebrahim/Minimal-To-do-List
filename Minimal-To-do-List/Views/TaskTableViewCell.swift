@@ -104,7 +104,7 @@ class TaskTableViewCell: UITableViewCell {
         delegate?.removeCell(self)
     }
     private func applyConstraints() {
-        NSLayoutConstraint.activate([ 
+        NSLayoutConstraint.activate([
             taskView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             taskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             taskView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
