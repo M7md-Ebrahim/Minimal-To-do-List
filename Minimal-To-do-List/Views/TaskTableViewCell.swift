@@ -86,14 +86,14 @@ class TaskTableViewCell: UITableViewCell {
             narrowConstraint.isActive = false
             wideConstraint.isActive = true
             sender.setTitle("Undone", for: .normal)
+            taskLabel.textColor = UIColor.init(netHex: 0x9C9C9C)
             taskLabel.setStrikethroughText(text)
         } else {
             wideConstraint.isActive = false
             narrowConstraint.isActive = true
             sender.setTitle("Done", for: .normal)
             print(text)
-            taskLabel.removeStrikethroughText()
-            taskLabel.textColor = UIColor.init(netHex: 0xBABABA)
+            taskLabel.removeStrikethroughText(text, defaultColor: UIColor.init(netHex: 0xBABABA))
         }
     }
     @objc func removeButtonTapped(_ sender: UIButton = UIButton()) {
@@ -125,13 +125,13 @@ class TaskTableViewCell: UITableViewCell {
             narrowConstraint.isActive = false
             wideConstraint.isActive = true
             doneButton.setTitle("Undone", for: .normal)
+            taskLabel.textColor = UIColor.init(netHex: 0x9C9C9C)
             taskLabel.setStrikethroughText(task.taskName!)
         } else {
             wideConstraint.isActive = false
             narrowConstraint.isActive = true
             doneButton.setTitle("Done", for: .normal)
-            taskLabel.removeStrikethroughText()
-            taskLabel.textColor = UIColor.init(netHex: 0xBABABA)
+            taskLabel.removeStrikethroughText(task.taskName!, defaultColor: UIColor.init(netHex: 0xBABABA))
         }
     }
 }

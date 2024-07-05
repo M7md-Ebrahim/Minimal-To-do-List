@@ -25,10 +25,11 @@ extension UILabel {
         ]
         self.attributedText = NSAttributedString(string: text, attributes: attributes)
     }
-    func removeStrikethroughText() {
-        guard let currentAttributedText = self.attributedText else { return }
-        let mutableAttributedText = NSMutableAttributedString(attributedString: currentAttributedText)
-        mutableAttributedText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: currentAttributedText.length))
-        self.attributedText = mutableAttributedText
+    func removeStrikethroughText(_ text: String, defaultColor: UIColor) {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .strikethroughStyle: [],
+            .foregroundColor: defaultColor
+        ]
+        self.attributedText = NSAttributedString(string: text, attributes: attributes)
     }
 }

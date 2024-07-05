@@ -42,9 +42,6 @@ class ToDoViewController: UIViewController {
         }
         tasksTableView.isUserInteractionEnabled = true
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
     private var tasksCell: [RealmTaskModel] = []
     private func fetchTasks() {
         DataPersistence.shared.fetchTasks { [weak self] results in

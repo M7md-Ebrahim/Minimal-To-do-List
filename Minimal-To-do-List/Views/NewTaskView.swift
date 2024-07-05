@@ -83,14 +83,9 @@ class NewTaskView: UIView {
         ])
     }
 }
-
 extension NewTaskView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         buttonTapped()
         return true
-    }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        taskTextField.endEditing(true)
     }
 }
